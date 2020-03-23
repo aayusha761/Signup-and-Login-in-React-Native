@@ -6,40 +6,82 @@ import {
   TouchableOpacity,
   TextInput,
 } from 'react-native';
-
+import {Form, TextValidator} from 'react-native-validator-form';
 import Logo from '../components/Logo';
 import {Actions} from 'react-native-router-flux';
 
-export default class Signup extends Component<{}> {
+export default class Signup extends Component {
+  state = {
+    email: '',
+    password: '',
+    userName: '',
+  };
+
+  handleChangeEmail = email => {
+    this.setState({email});
+  };
+  handleChangePassword = password => {
+    this.setState({password});
+  };
+  handleChangeName = userName => {
+    this.setState({userName});
+  };
+
   goBack() {
     Actions.pop();
   }
 
+  handleSubmit = () => {
+    console.log(this.state);
+  };
+
   render() {
+    const {email, password, userName} = this.state;
     return (
       <View style={styles.container}>
         <Logo />
         <View style={styles.container1}>
-          <TextInput
-            style={styles.inputBox}
-            underlineColorAndroid="rgba(0,0,0,0)"
-            placeholder="Email"
-            placeholderTextColor="#ffffff"
-            selectionColor="#fff"
-            keyboardType="email-address"
-            onSubmitEditing={() => this.password.focus()}
-          />
-          <TextInput
-            style={styles.inputBox}
-            underlineColorAndroid="rgba(0,0,0,0)"
-            placeholder="Password"
-            secureTextEntry={true}
-            placeholderTextColor="#ffffff"
-            ref={input => (this.password = input)}
-          />
-          <TouchableOpacity style={styles.button}>
-            <Text style={styles.buttonText}>Sign up</Text>
-          </TouchableOpacity>
+          <Form ref="form" onSubmit={this.handleSubmit}>
+            <TextInput
+              style={styles.inputBox}
+              underlineColorAndroid="rgba(0,0,0,0)"
+              placeholder="Name"
+              value={userName}
+              placeholderTextColor="#ffffff"
+              selectionColor="#fff"
+              keyboardType="default"
+              onChangeText={this.handleChangeName}
+            />
+            <TextValidator
+              style={styles.inputBox}
+              name="email"
+              label="email"
+              underlineColorAndroid="rgba(0,0,0,0)"
+              placeholder="Username/Email"
+              validators={['required', 'isEmail']}
+              errorMessages={['This field is required', 'Email invalid']}
+              value={email}
+              placeholderTextColor="#ffffff"
+              selectionColor="#fff"
+              keyboardType="email-address"
+              onChangeText={this.handleChangeEmail}
+            />
+            <TextInput
+              style={styles.inputBox}
+              underlineColorAndroid="rgba(0,0,0,0)"
+              placeholder="Password"
+              secureTextEntry={true}
+              value={password}
+              placeholderTextColor="#ffffff"
+              ref={input => (input = this.state.password)}
+              onChangeText={this.handleChangePassword}
+            />
+            <TouchableOpacity
+              style={styles.button}
+              onPress={this.handleSubmit()}>
+              <Text style={styles.buttonText}>Sign up</Text>
+            </TouchableOpacity>
+          </Form>
         </View>
         <View style={styles.signupTextCont}>
           <Text style={styles.signupText}>Already have an account?</Text>
@@ -82,7 +124,7 @@ const styles = StyleSheet.create({
   },
 
   inputBox: {
-    width: 300,
+    width: 350,
     backgroundColor: 'rgba(255, 255,255,0.2)',
     borderRadius: 25,
     paddingHorizontal: 16,
@@ -91,7 +133,7 @@ const styles = StyleSheet.create({
     marginVertical: 10,
   },
   button: {
-    width: 300,
+    width: 350,
     backgroundColor: '#1c313a',
     borderRadius: 25,
     marginVertical: 10,
