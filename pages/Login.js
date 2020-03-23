@@ -1,83 +1,66 @@
-import React, {Component} from 'react';
+import React, {useState} from 'react';
 import {
   StyleSheet,
   Text,
   View,
   TouchableOpacity,
   TextInput,
+  Button,
 } from 'react-native';
-import {Form, TextValidator} from 'react-native-validator-form';
 import Logo from '../components/Logo';
 import {Actions} from 'react-native-router-flux';
+import axios from 'axios';
 
-export default class Login extends Component {
-  state = {
-    email1: '',
-    password1: '',
-  };
+export default function Login() {
+  const [email1, setEmail] = useState('');
+  const [password1, setPassword] = useState('');
 
-  handleChangeEmail = email1 => {
-    this.setState({email1});
-  };
-  handleChangePassword = password1 => {
-    this.setState({password1});
-  };
-
-  signup() {
+  function signup() {
     Actions.signup();
   }
 
-  handleSubmit = () => {
-    console.log(this.state);
+  const handleSubmit = async () => {
+    if (!email1 || !password1) {
+      alert('Enter Details...');
+      return;
+    }
+    console.log('email', email1);
+    console.log('password', password1);
   };
 
-  render() {
-    const {email1, password1} = this.state;
-    return (
-      <View style={styles.container}>
-        <Logo />
-        <View style={styles.container1}>
-          <Form ref="form" onSubmit={this.handleSubmit}>
-            <TextValidator
-              style={styles.inputBox}
-              name="email1"
-              label="email1"
-              underlineColorAndroid="rgba(0,0,0,0)"
-              placeholder="Username/Email"
-              validators={['required', 'isEmail']}
-              errorMessages={['This field is required', 'Email invalid']}
-              value={email1}
-              placeholderTextColor="#ffffff"
-              selectionColor="#fff"
-              keyboardType="email-address"
-              onChangeText={this.handleChangeEmail}
-            />
-            <TextInput
-              style={styles.inputBox}
-              underlineColorAndroid="rgba(0,0,0,0)"
-              placeholder="Password"
-              secureTextEntry={true}
-              placeholderTextColor="#ffffff"
-              value={password1}
-              ref={input => (this.password1 = input)}
-              onChangeText={this.handleChangePassword}
-            />
-            <TouchableOpacity
-              style={styles.button}
-              onPress={this.handleSubmit()}>
-              <Text style={styles.buttonText}>Login</Text>
-            </TouchableOpacity>
-          </Form>
-        </View>
-        <View style={styles.signupTextCont}>
-          <Text style={styles.signupText}>Don't have an account yet?</Text>
-          <TouchableOpacity onPress={this.signup}>
-            <Text style={styles.signupButton}> Signup</Text>
-          </TouchableOpacity>
-        </View>
+  return (
+    <View style={styles.container}>
+      <Logo />
+      <View style={styles.container1}>
+        <TextInput
+          style={styles.inputBox}
+          placeholder="Username/Email"
+          value={email1}
+          placeholderTextColor="#ffffff"
+          selectionColor="#fff"
+          keyboardType="email-address"
+          onChangeText={email1 => setEmail(email1)}
+        />
+        <TextInput
+          style={styles.inputBox}
+          placeholder="Password"
+          secureTextEntry={true}
+          placeholderTextColor="#ffffff"
+          value={password1}
+          onChangeText={password1 => setPassword(password1)}
+        />
+        <TouchableOpacity style={styles.button} onPress={handleSubmit}>
+          <Text style={styles.buttonText}>Login</Text>
+        </TouchableOpacity>
       </View>
-    );
-  }
+      <View style={styles.signupTextCont}>
+        <Text style={styles.signupText}>Don't have an account yet?</Text>
+        <TouchableOpacity onPress={signup}>
+          <Text style={styles.signupButton}> Signup</Text>
+        </TouchableOpacity>
+      </View>
+    </View>
+  );
 }
 
 const styles = StyleSheet.create({
