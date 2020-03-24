@@ -5,13 +5,12 @@ import {
   View,
   TouchableOpacity,
   TextInput,
-  Button,
 } from 'react-native';
 import Logo from '../components/Logo';
 import {Actions} from 'react-native-router-flux';
 import axios from 'axios';
 
-export default function Login() {
+function Login() {
   const [email1, setEmail] = useState('');
   const [password1, setPassword] = useState('');
 
@@ -24,8 +23,30 @@ export default function Login() {
       alert('Enter Details...');
       return;
     }
-    console.log('email', email1);
-    console.log('password', password1);
+    console.log('email1', email1);
+    console.log('password1', password1);
+    var postData = {
+      userName: email1,
+      password: password1,
+    };
+    let axiosConfig = {
+      headers: {
+        'Content-Type': 'application/x-www-form-urlencoded',
+        // Accept: 'application/x-www-form-urlencoded',
+      },
+      // params: {
+      //   userName: email1,
+      //   password: password1,
+      // },
+    };
+    axios
+      .get('http://7fd5e654.ngrok.io/user/login', axiosConfig)
+      .then(res => {
+        console.log('RESPONSE RECEIVED: ', res);
+      })
+      .catch(err => {
+        console.log('AXIOS ERROR: ', err.response);
+      });
   };
 
   return (
@@ -115,3 +136,4 @@ const styles = StyleSheet.create({
     textAlign: 'center',
   },
 });
+export default Login;

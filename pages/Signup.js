@@ -14,6 +14,15 @@ export default function Signup() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [userName, setuserName] = useState('');
+  const url = 'http://localhost:3000/user/signUp';
+  const data = {
+    userName: email,
+    password: password,
+    name: userName,
+  };
+  const headers = {
+    'Content-Type': 'x-www-form-urlencoded',
+  };
 
   function goBack() {
     Actions.pop();
@@ -24,10 +33,59 @@ export default function Signup() {
       alert('Enter Details...');
       return;
     }
-    console.log('email', email);
-    console.log('password', password);
-    console.log('userName', userName);
+    var postData = {
+      userName: email,
+      password: password,
+    };
+    let axiosConfig = {
+      headers: {
+        'Content-Type': 'application/x-www-form-urlencoded',
+      },
+    };
+    axios
+      .post('http://ea29b3a5.ngrok.io/user/signUp', postData, axiosConfig)
+      .then(res => {
+        console.log('RESPONSE RECEIVED: ', res);
+      })
+      .catch(err => {
+        console.log('AXIOS ERROR: ', err);
+      });
   };
+  // axios
+  //   .post(url, data, headers)
+  //   .then(response => {
+  //     console.log(response.statusText);
+  //   })
+  //   .catch(function(error) {
+  //     console.log(error.message);
+  //   });
+  // axios({
+  //   method: 'post',
+  //   url: 'http://localhost:3000/user/signUp',
+  //   data: {
+  //     userName: email,
+  //     password: password,
+  //     name: userName,
+  //   },
+  //   headers: {
+  //     'content-type': 'x-www-form-urlencoded',
+  //   },
+  // });
+  // axios
+  //   .post('http://localhost:3000/user/signUp', {
+  //     headers: {
+  //       'Content-Type': 'application/x-www-form-urlencoded',
+  //       userName: email,
+  //       password: password,
+  //       name: userName,
+  //     },
+  //   })
+  //   .then(response => {
+  //     console.log(response.statusText);
+  //   })
+  //   .catch(function(error) {
+  //     console.log(error.message);
+  //   });
 
   return (
     <View style={styles.container}>
@@ -41,7 +99,7 @@ export default function Signup() {
           placeholderTextColor="#ffffff"
           selectionColor="#fff"
           keyboardType="default"
-          onChangeText={email1 => setuserName(email1)}
+          onChangeText={userName => setuserName(userName)}
         />
         <TextInput
           style={styles.inputBox}
