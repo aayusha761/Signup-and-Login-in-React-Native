@@ -1,14 +1,9 @@
 import React, {useState} from 'react';
-import {
-  StyleSheet,
-  Text,
-  View,
-  TouchableOpacity,
-  TextInput,
-} from 'react-native';
+import {Text, View, TouchableOpacity, TextInput} from 'react-native';
 import Logo from '../components/Logo';
 import {Actions} from 'react-native-router-flux';
-import axios from 'axios';
+import axios, {AxiosRequestConfig} from 'axios';
+import {styles} from '../styles/styles';
 
 function Login() {
   const [email1, setEmail] = useState('');
@@ -19,33 +14,23 @@ function Login() {
   }
 
   const handleSubmit = async () => {
-    if (!email1 || !password1) {
-      alert('Enter Details...');
-      return;
-    }
-    console.log('email1', email1);
-    console.log('password1', password1);
     var postData = {
       userName: email1,
       password: password1,
     };
-    let axiosConfig = {
-      headers: {
-        'Content-Type': 'application/x-www-form-urlencoded',
-        // Accept: 'application/x-www-form-urlencoded',
-      },
-      // params: {
-      //   userName: email1,
-      //   password: password1,
-      // },
+    let axiosConfig: AxiosRequestConfig = {
+      headers: {},
+      params: postData,
     };
     axios
-      .get('http://7fd5e654.ngrok.io/user/login', axiosConfig)
+      .post('http://localhost:3000/user/login', postData, axiosConfig)
       .then(res => {
-        console.log('RESPONSE RECEIVED: ', res);
+        // console.log('RESPONSE RECEIVED: ', res);
+        alert(res.data.message);
       })
       .catch(err => {
-        console.log('AXIOS ERROR: ', err.response);
+        // console.log('AXIOS ERROR: ', err.response);
+        alert('Enter all details');
       });
   };
 
@@ -55,7 +40,7 @@ function Login() {
       <View style={styles.container1}>
         <TextInput
           style={styles.inputBox}
-          placeholder="Username/Email"
+          placeholder="Username/Email (Required)"
           value={email1}
           placeholderTextColor="#ffffff"
           selectionColor="#fff"
@@ -64,7 +49,7 @@ function Login() {
         />
         <TextInput
           style={styles.inputBox}
-          placeholder="Password"
+          placeholder="Password (Required)"
           secureTextEntry={true}
           placeholderTextColor="#ffffff"
           value={password1}
@@ -83,57 +68,4 @@ function Login() {
     </View>
   );
 }
-
-const styles = StyleSheet.create({
-  container: {
-    backgroundColor: '#455a64',
-    flex: 1,
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-  signupTextCont: {
-    flexGrow: 1,
-    alignItems: 'flex-end',
-    justifyContent: 'center',
-    paddingVertical: 16,
-    flexDirection: 'row',
-  },
-  signupText: {
-    color: 'rgba(255,255,255,0.6)',
-    fontSize: 16,
-  },
-  signupButton: {
-    color: '#ffffff',
-    fontSize: 16,
-    fontWeight: '500',
-  },
-  container1: {
-    flexGrow: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
-
-  inputBox: {
-    width: 350,
-    backgroundColor: 'rgba(255, 255,255,0.2)',
-    borderRadius: 25,
-    paddingHorizontal: 16,
-    fontSize: 25,
-    color: '#ffffff',
-    marginVertical: 10,
-  },
-  button: {
-    width: 350,
-    backgroundColor: '#1c313a',
-    borderRadius: 25,
-    marginVertical: 10,
-    paddingVertical: 13,
-  },
-  buttonText: {
-    fontSize: 16,
-    fontWeight: '500',
-    color: '#ffffff',
-    textAlign: 'center',
-  },
-});
 export default Login;
