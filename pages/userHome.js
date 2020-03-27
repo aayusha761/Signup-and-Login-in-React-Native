@@ -7,6 +7,7 @@ import {
   TextInput,
   ScrollView,
 } from 'react-native';
+import {Dropdown} from 'react-native-material-dropdown';
 import {Actions} from 'react-native-router-flux';
 import {styles} from '../styles/styles';
 import axios, {AxiosRequestConfig} from 'axios';
@@ -23,18 +24,10 @@ function UserHome(props) {
   function logout() {
     alert('Logout successful');
     Actions.login();
-    // props.fromCalorie = 0;
-    // props.toCalorie = 10000;
-    // props.fromDate = '';
-    // props.toDate = '';
-    // props.fromTime = '';
-    // props.toTime = '';
-    // props.title = '';
   }
 
   const getMeals = async () => {
     var postData = {
-      // userId: props.userId,
       fromCalorie: props.fromCalorie ? props.fromCalorie : 0,
       toCalorie: props.toCalorie ? props.toCalorie : 10000,
       fromDate: props.fromDate ? props.fromDate : '0000/00/00',
@@ -83,55 +76,502 @@ function UserHome(props) {
         {/*  placeholderTextColor="#ffffff"*/}
         {/*  selectionColor="#fff"*/}
         {/*  onChangeText={userId => props.changeuserId(userId)}*/}
+
         {/*/>*/}
-        <TextInput
-          style={styles.inputBox}
-          placeholder="From Calorie"
-          value={props.fromCalorie}
-          placeholderTextColor="#ffffff"
-          selectionColor="#fff"
-          onChangeText={fromCalorie => props.changefromCalorie(fromCalorie)}
-        />
-        <TextInput
-          style={styles.inputBox}
-          placeholder="To Calorie"
-          value={props.toCalorie}
-          placeholderTextColor="#ffffff"
-          selectionColor="#fff"
-          onChangeText={toCalorie => props.changetoCalorie(toCalorie)}
-        />
-        <TextInput
-          style={styles.inputBox}
-          placeholder="From Date (YYYY/MM/DD)"
-          value={props.fromDate}
-          placeholderTextColor="#ffffff"
-          selectionColor="#fff"
-          onChangeText={userId => props.changefromDate(userId)}
-        />
-        <TextInput
-          style={styles.inputBox}
-          placeholder="To Date (YYYY/MM/DD)"
-          value={props.toDate}
-          placeholderTextColor="#ffffff"
-          selectionColor="#fff"
-          onChangeText={toDate => props.changetoDate(toDate)}
-        />
-        <TextInput
-          style={styles.inputBox}
-          placeholder="From Time (HH:MM)"
-          value={props.fromTime}
-          placeholderTextColor="#ffffff"
-          selectionColor="#fff"
-          onChangeText={fromTime => props.changefromTime(fromTime)}
-        />
-        <TextInput
-          style={styles.inputBox}
-          placeholder="To Time (HH:MM)"
-          value={props.toTime}
-          placeholderTextColor="#ffffff"
-          selectionColor="#fff"
-          onChangeText={toTime => props.changetoTime(toTime)}
-        />
+        <View
+          style={{
+            justifyContent: 'space-between',
+            width: 350,
+            backgroundColor: 'rgba(255, 255,255,0.2)',
+            borderRadius: 25,
+            paddingHorizontal: 16,
+            marginVertical: 5,
+          }}>
+          <View
+            style={{
+              marginTop: 10,
+              alignItems: 'center',
+              width: 325,
+            }}>
+            <Text
+              style={{
+                fontSize: 20,
+                color: '#ffffff',
+              }}>
+              Calorie
+            </Text>
+          </View>
+          <View
+            style={{
+              justifyContent: 'space-between',
+              flexDirection: 'row',
+            }}>
+            <View
+              style={{
+                justifyContent: 'space-between',
+                width: 150,
+                backgroundColor: 'rgba(255, 255,255,0.2)',
+                borderRadius: 25,
+                paddingHorizontal: 16,
+                marginVertical: 10,
+                marginTop: 20,
+              }}>
+              <Dropdown
+                style={{
+                  height: 50,
+                }}
+                value={props.fromCalorie}
+                onChangeText={itemValue => props.changefromCalorie(itemValue)}
+                data={[
+                  {
+                    value: '0',
+                    label: '0',
+                  },
+                  {
+                    value: '50',
+                    label: '50',
+                  },
+                  {
+                    value: '100',
+                    label: '100',
+                  },
+                  {
+                    value: '150',
+                    label: '150',
+                  },
+                  {
+                    value: '200',
+                    label: '200',
+                  },
+                  {
+                    value: '250',
+                    label: '250',
+                  },
+                  {
+                    value: '300',
+                    label: '300',
+                  },
+                  {
+                    value: '350',
+                    label: '350',
+                  },
+                  {
+                    value: '450',
+                    label: '450',
+                  },
+                  {
+                    value: '500',
+                    label: '500',
+                  },
+                ]}
+                dropdownOffset={{top: 0}}
+                pickerStyle={{borderBottomColor: 'transparent', borderWidth: 0}}
+                label="From Calorie"
+              />
+            </View>
+            <View
+              style={{
+                justifyContent: 'space-between',
+                width: 150,
+                backgroundColor: 'rgba(255, 255,255,0.2)',
+                borderRadius: 25,
+                paddingHorizontal: 16,
+                marginVertical: 10,
+                marginTop: 20,
+              }}>
+              <Dropdown
+                style={{
+                  height: 50,
+                }}
+                value={props.toCalorie}
+                onChangeText={itemValue => props.changetoCalorie(itemValue)}
+                data={[
+                  {
+                    value: '10000',
+                    label: 'Null',
+                  },
+                  {
+                    value: '50',
+                    label: '50',
+                  },
+                  {
+                    value: '100',
+                    label: '100',
+                  },
+                  {
+                    value: '150',
+                    label: '150',
+                  },
+                  {
+                    value: '200',
+                    label: '200',
+                  },
+                  {
+                    value: '250',
+                    label: '250',
+                  },
+                  {
+                    value: '300',
+                    label: '300',
+                  },
+                  {
+                    value: '350',
+                    label: '350',
+                  },
+                  {
+                    value: '450',
+                    label: '450',
+                  },
+                  {
+                    value: '500',
+                    label: '500',
+                  },
+                ]}
+                dropdownOffset={{top: 0}}
+                pickerStyle={{borderBottomColor: 'transparent', borderWidth: 0}}
+                label="To Calorie"
+              />
+            </View>
+          </View>
+        </View>
+        <View
+          style={{
+            justifyContent: 'space-between',
+            width: 350,
+            backgroundColor: 'rgba(255, 255,255,0.2)',
+            borderRadius: 25,
+            paddingHorizontal: 16,
+            marginVertical: 5,
+          }}>
+          <View
+            style={{
+              marginTop: 10,
+              alignItems: 'center',
+              width: 325,
+            }}>
+            <Text
+              style={{
+                fontSize: 20,
+                color: '#ffffff',
+              }}>
+              Time (HH:MM)
+            </Text>
+          </View>
+          <View
+            style={{
+              justifyContent: 'space-between',
+              flexDirection: 'row',
+            }}>
+            <View
+              style={{
+                justifyContent: 'space-between',
+                width: 150,
+                backgroundColor: 'rgba(255, 255,255,0.2)',
+                borderRadius: 25,
+                paddingHorizontal: 16,
+                marginVertical: 10,
+                marginTop: 20,
+              }}>
+              <Dropdown
+                style={{
+                  height: 50,
+                }}
+                value={props.fromTime}
+                onChangeText={itemValue => props.changefromTime(itemValue)}
+                data={[
+                  {
+                    value: '12:00',
+                    label: '00:00',
+                  },
+                  {
+                    value: '12:30',
+                    label: '00:30',
+                  },
+                  {
+                    value: '01:00',
+                    label: '01:00',
+                  },
+                  {
+                    value: '01:30',
+                    label: '01:30',
+                  },
+                  {
+                    value: '02:00',
+                    label: '02:00',
+                  },
+                  {
+                    value: '02:30',
+                    label: '02:30',
+                  },
+                  {
+                    value: '03:00',
+                    label: '03:00',
+                  },
+                  {
+                    value: '03:30',
+                    label: '03:30',
+                  },
+                  {
+                    value: '04:00',
+                    label: '04:00',
+                  },
+                  {
+                    value: '04:30',
+                    label: '04:30',
+                  },
+                  {
+                    value: '05:00',
+                    label: '05:00',
+                  },
+                  {
+                    value: '05:30',
+                    label: '05:30',
+                  },
+                  {
+                    value: '06:00',
+                    label: '06:00',
+                  },
+                  {
+                    value: '06:30',
+                    label: '06:30',
+                  },
+                  {
+                    value: '07:00',
+                    label: '07:00',
+                  },
+                  {
+                    value: '07:30',
+                    label: '07:30',
+                  },
+                  {
+                    value: '08:00',
+                    label: '08:00',
+                  },
+                  {
+                    value: '08:30',
+                    label: '08:30',
+                  },
+                  {
+                    value: '09:00',
+                    label: '09:00',
+                  },
+                  {
+                    value: '09:30',
+                    label: '09:30',
+                  },
+                  {
+                    value: '10:00',
+                    label: '10:00',
+                  },
+                  {
+                    value: '10:30',
+                    label: '10:30',
+                  },
+                  {
+                    value: '11:00',
+                    label: '11:00',
+                  },
+                  {
+                    value: '11:30',
+                    label: '11:30',
+                  },
+                ]}
+                dropdownOffset={{top: 0}}
+                pickerStyle={{borderBottomColor: 'transparent', borderWidth: 0}}
+                label="From Time"
+              />
+            </View>
+            <View
+              style={{
+                justifyContent: 'space-between',
+                width: 150,
+                backgroundColor: 'rgba(255, 255,255,0.2)',
+                borderRadius: 25,
+                paddingHorizontal: 16,
+                marginVertical: 10,
+                marginTop: 20,
+              }}>
+              <Dropdown
+                style={{
+                  height: 50,
+                }}
+                value={props.toTime}
+                onChangeText={itemValue => props.changetoTime(itemValue)}
+                data={[
+                  {
+                    value: '12:00',
+                    label: '00:00',
+                  },
+                  {
+                    value: '12:30',
+                    label: '00:30',
+                  },
+                  {
+                    value: '01:00',
+                    label: '01:00',
+                  },
+                  {
+                    value: '01:30',
+                    label: '01:30',
+                  },
+                  {
+                    value: '02:00',
+                    label: '02:00',
+                  },
+                  {
+                    value: '02:30',
+                    label: '02:30',
+                  },
+                  {
+                    value: '03:00',
+                    label: '03:00',
+                  },
+                  {
+                    value: '03:30',
+                    label: '03:30',
+                  },
+                  {
+                    value: '04:00',
+                    label: '04:00',
+                  },
+                  {
+                    value: '04:30',
+                    label: '04:30',
+                  },
+                  {
+                    value: '05:00',
+                    label: '05:00',
+                  },
+                  {
+                    value: '05:30',
+                    label: '05:30',
+                  },
+                  {
+                    value: '06:00',
+                    label: '06:00',
+                  },
+                  {
+                    value: '06:30',
+                    label: '06:30',
+                  },
+                  {
+                    value: '07:00',
+                    label: '07:00',
+                  },
+                  {
+                    value: '07:30',
+                    label: '07:30',
+                  },
+                  {
+                    value: '08:00',
+                    label: '08:00',
+                  },
+                  {
+                    value: '08:30',
+                    label: '08:30',
+                  },
+                  {
+                    value: '09:00',
+                    label: '09:00',
+                  },
+                  {
+                    value: '09:30',
+                    label: '09:30',
+                  },
+                  {
+                    value: '10:00',
+                    label: '10:00',
+                  },
+                  {
+                    value: '10:30',
+                    label: '10:30',
+                  },
+                  {
+                    value: '11:00',
+                    label: '11:00',
+                  },
+                  {
+                    value: '11:30',
+                    label: '11:30',
+                  },
+                ]}
+                dropdownOffset={{top: 0}}
+                pickerStyle={{borderBottomColor: 'transparent', borderWidth: 0}}
+                label="To Time"
+              />
+            </View>
+          </View>
+        </View>
+        <View
+          style={{
+            justifyContent: 'space-between',
+            width: 350,
+            backgroundColor: 'rgba(255, 255,255,0.2)',
+            borderRadius: 25,
+            paddingHorizontal: 16,
+            marginVertical: 5,
+          }}>
+          <View
+            style={{
+              marginTop: 10,
+              alignItems: 'center',
+              width: 325,
+            }}>
+            <Text
+              style={{
+                fontSize: 20,
+                color: '#ffffff',
+              }}>
+              Date (YYYY/MM/DD)
+            </Text>
+          </View>
+          <View
+            style={{
+              justifyContent: 'space-between',
+              flexDirection: 'row',
+            }}>
+            <TextInput
+              style={{
+                justifyContent: 'space-between',
+                width: 150,
+                backgroundColor: 'rgba(255, 255,255,0.2)',
+                borderRadius: 25,
+                paddingHorizontal: 16,
+                marginVertical: 10,
+                marginTop: 20,
+                fontSize: 25,
+              }}
+              placeholder="From Date"
+              value={props.fromDate}
+              placeholderTextColor="#ffffff"
+              selectionColor="#fff"
+              onChangeText={userId => props.changefromDate(userId)}
+            />
+            <View
+              style={{
+                justifyContent: 'space-between',
+                flexDirection: 'row',
+              }}>
+              <TextInput
+                style={{
+                  justifyContent: 'space-between',
+                  width: 150,
+                  backgroundColor: 'rgba(255, 255,255,0.2)',
+                  borderRadius: 25,
+                  paddingHorizontal: 16,
+                  marginVertical: 10,
+                  fontSize: 25,
+                  marginTop: 20,
+                }}
+                placeholder="To Date"
+                value={props.toDate}
+                placeholderTextColor="#ffffff"
+                selectionColor="#fff"
+                onChangeText={toDate => props.changetoDate(toDate)}
+              />
+            </View>
+          </View>
+        </View>
         <TextInput
           style={styles.inputBox}
           placeholder="Title"
