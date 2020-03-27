@@ -24,12 +24,15 @@ export const styles = StyleSheet.create({
     fontWeight: '500',
   },
   container1: {
-    flexGrow: 1,
-    justifyContent: 'center',
+    flex: 1,
+    // flexGrow: 1,
+    // justifyContent: 'space-between',
+    margin: 100,
     alignItems: 'center',
   },
 
   inputBox: {
+    justifyContent: 'space-between',
     width: 350,
     backgroundColor: 'rgba(255, 255,255,0.2)',
     borderRadius: 25,

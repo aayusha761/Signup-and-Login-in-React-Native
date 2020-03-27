@@ -1,39 +1,52 @@
-import React, {useState} from 'react';
+import React, {useEffect} from 'react';
 import {Text, View, TouchableOpacity, TextInput} from 'react-native';
 import Logo from '../components/Logo';
 import {Actions} from 'react-native-router-flux';
 import axios, {AxiosRequestConfig} from 'axios';
 import {styles} from '../styles/styles';
+import {connect} from 'react-redux';
+import SyncStorage from 'sync-storage';
 
-function Login() {
-  const [email1, setEmail] = useState('');
-  const [password1, setPassword] = useState('');
-
+function Login(props) {
+  useEffect(() => {
+    (async () => {
+      await SyncStorage.init();
+    })();
+  });
   function signup() {
     Actions.signup();
   }
 
   const handleSubmit = async () => {
     var postData = {
-      userName: email1,
-      password: password1,
+      userName: props.userName,
+      password: props.password,
     };
     let axiosConfig: AxiosRequestConfig = {
       headers: {},
       params: postData,
     };
+    let token;
     axios
       .post('http://localhost:3000/user/login', postData, axiosConfig)
-      .then(res => {
-        // console.log('RESPONSE RECEIVED: ', res);
-        alert(res.data.message);
+      .then(async res => {
+        if (res.data.message === 'SUCCESS') {
+          token = res.data.data.jwttoken;
+          await SyncStorage.set('jwttoken', token);
+          // console.log(token);
+          alert(res.data.message);
+          Actions.userHome();
+        } else {
+          alert('Invalid username/password');
+        }
       })
       .catch(err => {
         // console.log('AXIOS ERROR: ', err.response);
-        alert('Enter all details');
+        alert('Validation failed!!!');
       });
+    console.log(SyncStorage.get('jwttoken'));
   };
-
+  // console.log(SyncStorage.get('jwttoken'));
   return (
     <View style={styles.container}>
       <Logo />
@@ -41,19 +54,19 @@ function Login() {
         <TextInput
           style={styles.inputBox}
           placeholder="Username/Email (Required)"
-          value={email1}
+          value={props.userName}
           placeholderTextColor="#ffffff"
           selectionColor="#fff"
           keyboardType="email-address"
-          onChangeText={email1 => setEmail(email1)}
+          onChangeText={email => props.changeEmail(email)}
         />
         <TextInput
           style={styles.inputBox}
           placeholder="Password (Required)"
           secureTextEntry={true}
           placeholderTextColor="#ffffff"
-          value={password1}
-          onChangeText={password1 => setPassword(password1)}
+          value={props.password}
+          onChangeText={password => props.changePassword(password)}
         />
         <TouchableOpacity style={styles.button} onPress={handleSubmit}>
           <Text style={styles.buttonText}>Login</Text>
@@ -68,4 +81,18 @@ function Login() {
     </View>
   );
 }
-export default Login;
+
+const mapStateToProps = state => {
+  return state;
+};
+
+const mapDispatchToProps = dispatch => ({
+  changeEmail: payload => dispatch({type: 'CHANGE_EMAIL', payload: payload}),
+  changePassword: payload =>
+    dispatch({type: 'CHANGE_PASSWORD', payload: payload}),
+});
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps,
+)(Login);

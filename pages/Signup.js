@@ -1,26 +1,22 @@
-import React, {useState} from 'react';
+import React from 'react';
 import {Text, View, TouchableOpacity, TextInput} from 'react-native';
 import Logo from '../components/Logo';
 import {Actions} from 'react-native-router-flux';
 import axios, {AxiosRequestConfig} from 'axios';
 import {styles} from '../styles/styles';
+import {connect} from 'react-redux';
 
-export default function Signup() {
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
-  const [userName, setuserName] = useState('');
-  const [calorie, setCalorie] = useState('');
-
+function Signup(props) {
   function goBack() {
     Actions.pop();
   }
 
   const handleSubmit = async () => {
     var postData = {
-      userName: email,
-      password: password,
-      name: userName,
-      calorie: calorie,
+      userName: props.userName1,
+      password: props.password1,
+      name: props.name,
+      calorie: props.calorie,
     };
     let axiosConfig: AxiosRequestConfig = {
       headers: {},
@@ -46,35 +42,35 @@ export default function Signup() {
           style={styles.inputBox}
           underlineColorAndroid="rgba(0,0,0,0)"
           placeholder="Name (Required)"
-          value={userName}
+          value={props.name}
           placeholderTextColor="#ffffff"
           selectionColor="#fff"
           keyboardType="default"
-          onChangeText={userName => setuserName(userName)}
+          onChangeText={name => props.changeusername(name)}
         />
         <TextInput
           style={styles.inputBox}
           placeholder="Username/Email (Required)"
-          value={email}
+          value={props.userName1}
           placeholderTextColor="#ffffff"
           selectionColor="#fff"
           keyboardType="email-address"
-          onChangeText={email1 => setEmail(email1)}
+          onChangeText={email => props.changeEmail1(email)}
         />
         <TextInput
           style={styles.inputBox}
           placeholder="Password (Required)"
           secureTextEntry={true}
           placeholderTextColor="#ffffff"
-          value={password}
-          onChangeText={password1 => setPassword(password1)}
+          value={props.password1}
+          onChangeText={password => props.changePassword1(password)}
         />
         <TextInput
           style={styles.inputBox}
           placeholder="Calorie (Optional)"
           placeholderTextColor="#ffffff"
-          value={calorie}
-          onChangeText={calorie => setCalorie(calorie)}
+          value={props.calorie}
+          onChangeText={calorie => props.changeCalorie(calorie)}
         />
         <TouchableOpacity style={styles.button} onPress={handleSubmit}>
           <Text style={styles.buttonText}>Sign up</Text>
@@ -89,3 +85,23 @@ export default function Signup() {
     </View>
   );
 }
+
+const mapStateToProps = state => {
+  return state;
+};
+
+const mapDispatchToProps = dispatch => ({
+  changeEmail1: payload =>
+    dispatch({type: 'CHANGE_EMAIL_SIGNUP', payload: payload}),
+  changePassword1: payload =>
+    dispatch({type: 'CHANGE_PASSWORD_SIGNUP', payload: payload}),
+  changeusername: payload =>
+    dispatch({type: 'CHANGE_USERNAME', payload: payload}),
+  changeCalorie: payload =>
+    dispatch({type: 'CHANGE_CALORIE', payload: payload}),
+});
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps,
+)(Signup);
