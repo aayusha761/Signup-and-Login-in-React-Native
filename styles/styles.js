@@ -25,8 +25,6 @@ export const styles = StyleSheet.create({
   },
   container1: {
     flex: 1,
-    // flexGrow: 1,
-    // justifyContent: 'space-between',
     margin: 100,
     alignItems: 'center',
   },

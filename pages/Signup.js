@@ -25,11 +25,9 @@ function Signup(props) {
     axios
       .post('http://localhost:3000/user/signUp', postData, axiosConfig)
       .then(res => {
-        // console.log('RESPONSE RECEIVED: ', res.data);
         alert(res.data.message);
       })
-      .catch(err => {
-        // console.log('AXIOS ERROR: ', err.response);
+      .catch(() => {
         alert('Enter all details');
       });
   };

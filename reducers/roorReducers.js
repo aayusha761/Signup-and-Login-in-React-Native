@@ -15,7 +15,6 @@ const initState = {
   fromCalorie: '',
   toCalorie: '',
   title: '',
-  // meals: [],
 };
 
 const rootReducer = (state = initState, action) => {

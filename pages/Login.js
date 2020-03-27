@@ -33,20 +33,17 @@ function Login(props) {
         if (res.data.message === 'SUCCESS') {
           token = res.data.data.jwttoken;
           await SyncStorage.set('jwttoken', token);
-          // console.log(token);
           alert(res.data.message);
           Actions.userHome();
         } else {
           alert('Invalid username/password');
         }
       })
-      .catch(err => {
-        // console.log('AXIOS ERROR: ', err.response);
+      .catch(() => {
         alert('Validation failed!!!');
       });
     console.log(SyncStorage.get('jwttoken'));
   };
-  // console.log(SyncStorage.get('jwttoken'));
   return (
     <View style={styles.container}>
       <Logo />
