@@ -25,7 +25,7 @@ function Signup(props) {
     axios
       .post('http://localhost:3000/user/signUp', postData, axiosConfig)
       .then(res => {
-        alert(res.data.message);
+        alert(res.data.message) ? Actions.login() : null;
       })
       .catch(() => {
         alert('Enter all details');

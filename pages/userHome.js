@@ -5,6 +5,7 @@ import {
   Text,
   TextInput,
   ScrollView,
+  Button,
 } from 'react-native';
 import {Dropdown} from 'react-native-material-dropdown';
 import {Actions} from 'react-native-router-flux';
@@ -23,6 +24,39 @@ function UserHome(props) {
   function logout() {
     alert('Logout successful');
     Actions.login();
+  }
+  function addMeals() {
+    Actions.addMeals();
+  }
+  function userHome() {
+    props.title = '';
+    props.calorie = 0;
+  }
+
+  async function removeMeal(title) {
+    var postData = {
+      title: title,
+    };
+    let axiosConfig: AxiosRequestConfig = {
+      headers: {
+        jwttoken: await SyncStorage.data.get('jwttoken'),
+      },
+      params: postData,
+    };
+    axios
+      .post('http://localhost:3000/meal/remove', postData, axiosConfig)
+      .then(async res => {
+        if (res.status === 201) {
+          alert('Deleted...');
+          userHome();
+        } else {
+          alert('Meal not deleted');
+        }
+      })
+      .catch(() => {
+        alert('Validation failed!!!');
+      });
+    console.log(SyncStorage.get('jwttoken'));
   }
 
   const getMeals = async () => {
@@ -569,21 +603,23 @@ function UserHome(props) {
         <TouchableOpacity style={styles.button} onPress={getMeals}>
           <Text style={styles.buttonText}>Get Meals</Text>
         </TouchableOpacity>
+        <TouchableOpacity style={styles.button} onPress={addMeals}>
+          <Text style={styles.buttonText}>Add Meals</Text>
+        </TouchableOpacity>
         <View style={{flexDirection: 'row', flex: 1, margin: 30, height: 60}}>
-          <Text style={{width: 87.5, height: 50, backgroundColor: 'skyblue'}}>
+          <Text style={{width: 80, height: 50, backgroundColor: 'skyblue'}}>
             Date
           </Text>
-          <Text
-            style={{width: 87.5, height: 50, backgroundColor: 'powderblue'}}>
+          <Text style={{width: 70, height: 50, backgroundColor: 'powderblue'}}>
             Time
           </Text>
-          <Text style={{width: 87.5, height: 50, backgroundColor: 'skyblue'}}>
+          <Text style={{width: 70, height: 50, backgroundColor: 'skyblue'}}>
             Items
           </Text>
-          <Text
-            style={{width: 87.5, height: 50, backgroundColor: 'powderblue'}}>
+          <Text style={{width: 70, height: 50, backgroundColor: 'powderblue'}}>
             Calories
           </Text>
+          <Text style={{width: 70, height: 50}} />
         </View>
         <View
           style={{
@@ -604,7 +640,7 @@ function UserHome(props) {
                   key={index}>
                   <Text
                     style={{
-                      width: 87.5,
+                      width: 77,
                       height: 50,
                       justifyContent: 'space-between',
                       backgroundColor: 'skyblue',
@@ -613,7 +649,7 @@ function UserHome(props) {
                   </Text>
                   <Text
                     style={{
-                      width: 87.5,
+                      width: 70,
                       height: 50,
                       backgroundColor: 'powderblue',
                     }}>
@@ -621,7 +657,7 @@ function UserHome(props) {
                   </Text>
                   <Text
                     style={{
-                      width: 87.5,
+                      width: 70,
                       height: 50,
                       backgroundColor: 'skyblue',
                     }}>
@@ -629,12 +665,16 @@ function UserHome(props) {
                   </Text>
                   <Text
                     style={{
-                      width: 87.5,
+                      width: 70,
                       height: 50,
                       backgroundColor: 'powderblue',
                     }}>
                     {lap.calorie}
                   </Text>
+                  <Button
+                    onPress={() => removeMeal(lap.title)}
+                    title="Delete"
+                  />
                 </View>
               );
             })}
