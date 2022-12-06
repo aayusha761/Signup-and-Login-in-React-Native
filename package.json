@@ -15,7 +15,7 @@
     "@react-navigation/native": "latest",
     "@react-navigation/stack": "^5.2.3",
     "axios": "^0.19.2",
-    "qs": "^6.9.2",
+    "qs": "^6.9.7",
     "querystring": "^0.2.0",
     "react": "16.9.0",
     "react-native": "0.61.5",
